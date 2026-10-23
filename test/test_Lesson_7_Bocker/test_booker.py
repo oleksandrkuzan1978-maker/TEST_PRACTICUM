@@ -1,12 +1,5 @@
-from idlelib.configdialog import is_int
-from sqlite3.dbapi2 import paramstyle
-from ssl import create_default_context
-
 import pytest
-from selenium.webdriver.common.devtools.v150.emulation import add_screen
-
 from booker_api import BookerApi
-from lesson_7.lektion.Lesson7.requests2 import resp
 
 BASE_URL = "https://restful-booker.herokuapp.com"
 
