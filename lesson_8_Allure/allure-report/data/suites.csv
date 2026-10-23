@@ -1,0 +1,8 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1635","авторизация","lesson_8_Allure","2026-10-21","passed","2026-10-21","","test_booker","",""
+"","2158","test_get_booking","lesson_8_Allure","2026-10-21","passed","2026-10-21","","test_booker","",""
+"","0","получение всех броней 2","lesson_8_Allure","2026-10-21","skipped","2026-10-21","","test_booker","",""
+"","3625","test_update_booking","lesson_8_Allure","2026-10-21","passed","2026-10-21","","test_booker","",""
+"","4890","test_delete_booking","lesson_8_Allure","2026-10-21","passed","2026-10-21","","test_booker","",""
+"Привет, ITCH!","3522","test_patch_booking","lesson_8_Allure","2026-10-21","passed","2026-10-21","","test_booker","",""
+"","1090","создание брони","lesson_8_Allure","2026-10-21","passed","2026-10-21","","test_booker","",""
