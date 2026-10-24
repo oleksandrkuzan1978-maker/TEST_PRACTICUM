@@ -1,11 +1,7 @@
-from http.client import responses
-from operator import and_
-
 import pytest
 
 from hw7_api_booking import BookerApi
-
-BASE_URL = "https://restful-booker.herokuapp.com"
+from variables import *
 
 @pytest.fixture
 def api():
@@ -15,36 +11,27 @@ def api():
 @pytest.fixture
 def auth_token(api):
     """Фикстура для получения токена перед тестами, требующими прав"""
-    return api.get_auth_token("admin", "password123")
+    return api.get_auth_token(username, password)
 
 
 @pytest.fixture
 def sample_booking():
     """Тестовые данные для создания брони"""
-    return {
-        "firstname": "John",
-        "lastname": "Doe",
-        "totalprice": 150,
-        "depositpaid": True,
-        "bookingdates": {
-            "checkin": "2026-08-01",
-            "checkout": "2026-08-10"
-        },
-        "additionalneeds": "Breakfast"
-    }
+    return booking_data
+
 # ------------------- ТЕСТЫ -------------------
 
 def test_user_authorization(api):
     """Тест: получение токена авторизации"""
-    token = api.get_auth_token("admin", "password123")
-    assert token is not None and len(token) > 0, "Токен не должен быть пустым"
+    token = api.get_auth_token(username, password)
+    assert token is not None and len(token) > 0, token_message
 
 def test_create_booking(api, sample_booking):
     """Тест: создание бронирования и проверка сохраненных данных"""
     created_data = api.create_booking(sample_booking)
     assert "bookingid" in created_data
-    assert created_data["booking"]["firstname"] == sample_booking["firstname"]
-    assert created_data["booking"]["totalprice"] == sample_booking["totalprice"]
+    assert created_data["booking"]["bookingdates"]["checkin"] == sample_booking["bookingdates"]["checkin"]
+    assert created_data["booking"]["bookingdates"]["checkout"] == sample_booking["bookingdates"]["checkout"]
 
 
 def test_patch_booking(api, auth_token, sample_booking):
@@ -52,18 +39,15 @@ def test_patch_booking(api, auth_token, sample_booking):
     created = api.create_booking(sample_booking)
     booking_id = created["bookingid"]
 
-    patch_payload = {
-        "firstname": "Alexander",
-        "totalprice": 500
-    }
+    patch_payload = payload
 
-    resp = api.partial_update_booking(booking_id, patch_payload, auth_token)
-    assert resp.status_code == 200
+    response = api.partial_update_booking(booking_id, patch_payload, auth_token)
+    assert response.status_code == 200
 
-    patched_data = resp.json()
+    patched_data = response.json()
     # Проверяем измененные поля
-    assert patched_data["firstname"] == "Alexander"
-    assert patched_data["totalprice"] == 500
+    assert patched_data["firstname"] == "Emmanuil"
+    assert patched_data["additionalneeds"] == "Any other needs the guest has"
     # Проверяем, что нетронутые поля сохранили старое значение
     assert patched_data["lastname"] == sample_booking["lastname"]
 
@@ -77,8 +61,8 @@ def test_get_booking_by_id(api, sample_booking):
     assert response.status_code == 200
 
     data = response.json()
-    assert data["firstname"] == "John"
-    assert data["lastname"] == "Doe"
+    assert data["firstname"] == "Maria"
+    assert data["lastname"] == "Brucks"
 
 
 def test_get_booking_by_nonexistent_id(api):
