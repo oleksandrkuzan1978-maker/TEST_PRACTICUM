@@ -1,9 +1,4 @@
-from http.client import responses
-
 import requests
-
-from lesson_7_requests.lektion.Lesson7.requests2 import resp
-
 
 class BookerApi:
     """Класс для взаимодействия с API Restful-Booker"""
@@ -20,13 +15,13 @@ class BookerApi:
     def get_booking_ids(self, params=None):
         """Получить список всех ID бронирований (с фильтрацией или без)"""
         response = requests.get(f"{self.base_url}/booking", params=params)
-        assert response.status_code == 200, f"Ошибка получения списка: {resp.status_code}"
+        assert response.status_code == 200, f"Ошибка получения списка: {response.status_code}"
         return response.json()
 
     def get_booking(self, booking_id):
         """Получить детали бронирования по ID"""
         response = requests.get(f"{self.base_url}/booking/{booking_id}")
-        return response.json()
+        return response
 
     def create_booking(self, booking_data):
         """Создать новое бронирование"""
